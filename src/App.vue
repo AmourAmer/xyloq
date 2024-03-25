@@ -1,46 +1,59 @@
-<script setup lang="ts">
-import Greet from "./components/Greet.vue";
+<!--
+A simple markdown editor.
+-->
+<script setup>
+import { marked } from "marked";
+import { debounce } from "lodash-es";
+import { ref, computed } from "vue";
+import { useLocalStorage } from "@vueuse/core";
+
+const input = useLocalStorage("demo-input", "# hello");
+
+const output = computed(() => marked(input.value));
+
+const update = debounce((e) => {
+  input.value = e.target.value;
+}, 100);
 </script>
 
 <template>
-  <div class="container">
-    <h1>Welcome to Tauri!</h1>
-
-    <div class="row">
-      <a href="https://vitejs.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
-    </div>
-
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
-
-    <p>
-      Recommended IDE setup:
-      <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
-      +
-      <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-      +
-      <a href="https://github.com/tauri-apps/tauri-vscode" target="_blank">Tauri</a>
-      +
-      <a href="https://github.com/rust-lang/rust-analyzer" target="_blank">rust-analyzer</a>
-    </p>
-
-    <Greet />
+  <div class="editor">
+    <textarea class="input" :value="input" @input="update"></textarea>
+    <div class="output" v-html="output"></div>
   </div>
 </template>
 
-<style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+<style>
+body {
+  margin: 0;
 }
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
+.editor {
+  height: 100vh;
+  display: flex;
+}
+
+.input,
+.output {
+  overflow: auto;
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+.input {
+  border: none;
+  border-right: 1px solid #ccc;
+  resize: none;
+  outline: none;
+  background-color: #f6f6f6;
+  font-size: 14px;
+  font-family: "Monaco", courier, monospace;
+  padding: 20px;
+}
+
+code {
+  color: #f66;
 }
 </style>
