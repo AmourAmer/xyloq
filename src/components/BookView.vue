@@ -16,6 +16,7 @@
 
 <template>
   <PagesLu @choose="(page) => (currentId = page)" :lu="LU" />
+  <PagesDependences @choose="(page) => (currentId = page)" :dependences="unsatisfiedDependence" />
   <div style="border: sandybrown 1px solid; height: 400px; margin: 10px">
     <FileGroup :files="staticSampleTree" />
     {{ LU }}
@@ -28,6 +29,7 @@
 <script setup lang="ts">
 import FileGroup from "./FileGroup.vue";
 import PagesLu from "./PagesLu.vue";
+import PagesDependences from "./PagesDependences.vue";
 import { ref, reactive, computed } from "vue";
 const staticSampleTree = [
   { id: "grandparents", cxt: "They love you very much" },
