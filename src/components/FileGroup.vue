@@ -16,10 +16,11 @@
 
 <template>
   <div>
-    <button v-for="file in files" :key="file" @click="setFile(file)">
-      {{ file }}
+    <button class="bg-gray-500 mx-2 px-2" v-for="file in unifiedFiles" :key="file.id" @click="setFile(file.id)">
+      {{ file.id }}
     </button>
-    <FileSingle v-for="file in uniq(files)" :key="file" v-show="file === currentFilename" :filename="file" />
+    <FileSingle v-for="file in uniq(unifiedFiles)" :key="file.id" v-show="file.id === currentFilename"
+      :filename="file.id" />
   </div>
 </template>
 
@@ -30,15 +31,19 @@ import FileSingle from "./FileSingle.vue";
 
 const props = defineProps({
   files: {
-    type: Array<String>,
+    type: Array<Object>,
     required: true,
   },
 });
 
-const currentFilename = ref(props.files[0]); // whatif empty? should be some greeting
+const unifiedFiles = props.files.map((e) => {
+  if (typeof e === "object") return e;
+  else return { id: e };
+});
+const currentFilename = ref(unifiedFiles[0].id); // whatif empty? should be some greeting
 
-function setFile(file) {
-  currentFilename.value = file;
+function setFile(fileid) {
+  currentFilename.value = fileid;
 }
 </script>
 
