@@ -15,8 +15,8 @@
 <!-- along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
 
 <template>
-  <PagesLu @choose="(page) => (currentId = page)" :lu="LU" />
-  <PagesDependences @choose="(page) => (currentId = page)" :dependences="unsatisfiedDependence" />
+  <PageGroup @choose="(page) => (currentId = page)" :pages="LU" type="lu" />
+  <PageGroup @choose="(page) => (currentId = page)" :pages="unsatisfiedDependence" type="dependence" />
   <div style="border: sandybrown 1px solid; height: 400px; margin: 10px">
     <FileGroup :files="staticSampleTree" />
     {{ LU }}
@@ -24,12 +24,12 @@
     {{ unsatisfiedDependence }}
     {{ recommends }}
   </div>
+  <PageGroup @choose="(page) => (currentId = page)" :pages="recommends" type="recommends" />
 </template>
 
 <script setup lang="ts">
 import FileGroup from "./FileGroup.vue";
-import PagesLu from "./PagesLu.vue";
-import PagesDependences from "./PagesDependences.vue";
+import PageGroup from "./PageGroup.vue";
 import { ref, reactive, computed } from "vue";
 const staticSampleTree = [
   { id: "grandparents", cxt: "They love you very much" },

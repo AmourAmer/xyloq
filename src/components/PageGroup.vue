@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <button class="bg-purple-500 mx-2 px-2 lu" v-for="page in lu" :key="page" @click="$emit('choose', page)">
+    <button class="mx-2 px-2 pages" :class="typeClass" v-for="page in pages" :key="page" @click="$emit('choose', page)">
       {{ page }}
     </button>
   </div>
@@ -26,13 +26,20 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  lu: {
+  pages: {
     type: Array<String>,
     required: true,
   },
+  type: String,
 });
 
 const emit = defineEmits(["choose"]);
+
+const typeClass = computed(() => {
+  if (props.type === "lu") return "bg-purple-500";
+  else if (props.type === "dependence") return "bg-pink-400";
+  else return "bg-red-400";
+});
 </script>
 
 <style scoped></style>
