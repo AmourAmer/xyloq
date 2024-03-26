@@ -19,7 +19,7 @@ const props = defineProps({
 });
 
 const input = useLocalStorage(props.filename, "# hello");
-console.log(props.filename);
+console.log(props.filename); // For DEBUGGING
 
 const output = computed(() => marked(input.value));
 

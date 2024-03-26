@@ -2,7 +2,7 @@
 A simple markdown editor.
 -->
 <script setup>
-import FileSingle from "./components/FileSingle.vue";
+import FileGroup from "./components/FileGroup.vue";
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import FileSingle from "./components/FileSingle.vue";
       height: 1200px;
       margin: 10px;
     ">
-    <FileSingle filename="demo" />
+    <FileGroup :files="['demo', 'demo2']" />
   </div>
 </template>
 
