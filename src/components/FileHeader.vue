@@ -16,17 +16,14 @@
 
 <template>
   <div>
-    <FileHeader :files="files" @choose="(id) => setFile(id)" />
-    <FileSingle v-for="file in uniq(unifiedFiles)" :key="file.id" v-show="file.id === currentFilename"
-      :filename="file.id" />
+    <button class="bg-gray-500 mx-2 px-2" v-for="file in files" @click="$emit('choose', file)" :key="file">
+      {{ file }}
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { uniq } from "lodash-es";
-import FileSingle from "./FileSingle.vue";
-import FileHeader from "./FileHeader.vue";
 
 const props = defineProps({
   files: {
@@ -35,15 +32,7 @@ const props = defineProps({
   },
 });
 
-const unifiedFiles = props.files.map((e) => {
-  if (typeof e === "object") return e;
-  else return { id: e };
-});
-const currentFilename = ref(unifiedFiles[0].id); // whatif empty? should be some greeting
-
-function setFile(fileid) {
-  currentFilename.value = fileid;
-}
+const emit = defineEmits(["choose"]);
 </script>
 
 <style scoped></style>

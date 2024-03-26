@@ -32,10 +32,15 @@ const props = defineProps({
     type: String,
     required: true, // not working
   },
+  cxt: String,
 });
 
-const input = useLocalStorage(props.filename, "# hello");
+const input = computed(() =>
+  props.cxt ? props.cxt : useLocalStorage(props.filename, "# hello").value,
+);
 console.log(props.filename); // For DEBUGGING
+console.log(props.cxt); // For DEBUGGING
+console.log(input);
 
 const output = computed(() => marked(input.value));
 

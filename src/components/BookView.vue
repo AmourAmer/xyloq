@@ -17,18 +17,14 @@
 <template>
   <PageGroup @choose="(page) => (currentId = page)" :pages="LU" type="lu" />
   <PageGroup @choose="(page) => (currentId = page)" :pages="unsatisfiedDependence" type="dependence" />
-  <div style="border: sandybrown 1px solid; height: 400px; margin: 10px">
-    <FileGroup :files="staticSampleTree" />
-    {{ LU }}
-    {{ current }}
-    {{ unsatisfiedDependence }}
-    {{ recommends }}
-  </div>
+  <FileHeader :files="[current.id]" />
+  <FileSingle :filename="current.id" :cxt="current.cxt" />
   <PageGroup @choose="(page) => (currentId = page)" :pages="recommends" type="recommends" />
 </template>
 
 <script setup lang="ts">
-import FileGroup from "./FileGroup.vue";
+import FileSingle from "./FileSingle.vue";
+import FileHeader from "./FileHeader.vue";
 import PageGroup from "./PageGroup.vue";
 import { ref, reactive, computed } from "vue";
 const staticSampleTree = [
