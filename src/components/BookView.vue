@@ -15,6 +15,7 @@
 <!-- along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
 
 <template>
+  <PagesLu @choose="(page) => (currentId = page)" :lu="LU" />
   <div style="border: sandybrown 1px solid; height: 400px; margin: 10px">
     <FileGroup :files="staticSampleTree" />
     {{ LU }}
@@ -26,6 +27,7 @@
 
 <script setup lang="ts">
 import FileGroup from "./FileGroup.vue";
+import PagesLu from "./PagesLu.vue";
 import { ref, reactive, computed } from "vue";
 const staticSampleTree = [
   { id: "grandparents", cxt: "They love you very much" },
@@ -111,7 +113,7 @@ function filterLu(array) {
   return array.filter((item) => LU.indexOf(item) === -1);
 }
 const current = computed(() => staticSampleTree[currentIndex.value]);
-const unsatisfiedDependence = computed(() => filterLu(current.value.dpd));
+const unsatisfiedDependence = computed(() => filterLu(current.value.dpd || []));
 const recommends = computed(() => filterLu(current.value.rcm || []));
 // LU
 // dpd
